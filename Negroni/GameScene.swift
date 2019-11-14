@@ -27,6 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let monsterCategory:UInt32 = 0x1 << 2
     let projectileCategory:UInt32 = 0x1 << 3
     
+//    aaaaaa
     func spawnPlayer() {
         player = SKSpriteNode(imageNamed: "player")
         player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 88, height: 128))
