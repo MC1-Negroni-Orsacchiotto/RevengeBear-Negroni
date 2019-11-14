@@ -12,7 +12,7 @@ import AVFoundation
 import CoreAudio
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
+//    aaaaa
     var player:SKSpriteNode?
     var floor:SKSpriteNode?
     var monster:SKSpriteNode?
