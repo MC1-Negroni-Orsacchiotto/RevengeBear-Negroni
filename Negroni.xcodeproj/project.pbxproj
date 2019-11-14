@@ -109,8 +109,8 @@
 			children = (
 				8D2DF300237058D0004E263D /* AppDelegate.swift */,
 				8D2DF302237058D0004E263D /* GameScene.sks */,
-				8D2DF304237058D0004E263D /* Actions.sks */,
 				8D2DF306237058D0004E263D /* GameScene.swift */,
+				8D2DF304237058D0004E263D /* Actions.sks */,
 				D3284C59237DAD2D009CD9F3 /* StartScene.sks */,
 				D3284C5B237DAF2B009CD9F3 /* StartScene.swift */,
 				8D2DF308237058D0004E263D /* GameViewController.swift */,

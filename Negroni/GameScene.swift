@@ -86,11 +86,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile?.physicsBody?.contactTestBitMask = monsterCategory
         projectile?.physicsBody?.linearDamping = 0
         projectile?.anchorPoint = CGPoint(x: 0, y: 0)
-        projectile?.position = CGPoint(x: (player?.position.x)! + 80, y: (player?.position.y)! + 60)
+        
+        if(movementRight == true)
+        {
+            projectile?.position = CGPoint(x: (player?.position.x)! + 80, y: (player?.position.y)! + 60)
+        }
+        else
+        {
+            projectile?.position = CGPoint(x: (player?.position.x)! - 7, y: (player?.position.y)! + 60)
+        }
+        
         projectile?.size = CGSize(width: 10, height: 10)
         addChild(projectile!)
-        let projectileMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
-        let repeatAction = SKAction.repeatForever(projectileMoveAction)
+        
+        var projectileMoveAction:SKAction?
+        
+        if(movementRight == true)
+        {
+            projectileMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+        }
+        else
+        {
+            
+            projectileMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
+        }
+        
+        let repeatAction = SKAction.repeatForever(projectileMoveAction!)
         projectile?.run(repeatAction)
         
         
