@@ -18,6 +18,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player:SKSpriteNode?
     var floor:SKSpriteNode?
     var monster:SKSpriteNode?
+    var monster1:SKSpriteNode?
     var projectile:SKSpriteNode?
     var recorder:AVAudioRecorder?
     var levelTimer = Timer()
@@ -62,8 +63,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    funzione inserisci mostri
     func spawnMonsters() {
+        if(monster != nil)
+        {
+            monster1 = monster
+        }
+        
         monster = SKSpriteNode(imageNamed: "monster")
-        monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 88, height: 128))
+        monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 70, height: 100))
         monster?.physicsBody?.categoryBitMask = monsterCategory
         monster?.physicsBody?.collisionBitMask = groundCategory | playerCategory | projectileCategory
         //monster?.physicsBody?.contactTestBitMask = projectileCategory
@@ -166,6 +172,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let range = SKRange(lowerLimit: 0, upperLimit: 650)
         let lockToCenter = SKConstraint.positionX(range)
         player?.constraints = [lockToCenter]
+        
+        if(monster != nil)
+        {
+            monster1?.position = CGPoint(x: 3000, y: 4000)
+        }
+        
+        monster?.position = CGPoint(x: size.width * 0.8, y: size.height * 0.6)
+        
     }
     
     override func didMove(to view: SKView) {
