@@ -269,6 +269,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("monster hit")
             case playerCategory | monsterCategory:
                 print("monster hit player")
+                gameOver()
             default:
                 print("undetected collision")
             }
