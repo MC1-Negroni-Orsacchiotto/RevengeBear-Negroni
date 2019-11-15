@@ -13,6 +13,7 @@ import AVFoundation
 import CoreAudio
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
 //    Varibili e costanti
     var gameScene:SKScene?
     var player:SKSpriteNode?
@@ -29,10 +30,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var image_bear_array:[SKTexture]?
     
     
+   
+    var scoreLabel: SKLabelNode!
+    var score: Int = 0 { didSet { scoreLabel.text = "Score: \(score)" } }
+    
+    
+    
+    
+    
+    
     let playerCategory:UInt32 = 0x1 << 0
     let groundCategory:UInt32 = 0x1 << 1
     let monsterCategory:UInt32 = 0x1 << 2
     let projectileCategory:UInt32 = 0x1 << 3
+     
+    
+    
+//    funzione dello score
+    func spawnscore(){
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster"); scoreLabel.text = "Score: \(score)"; scoreLabel.horizontalAlignmentMode = .right; scoreLabel.position = CGPoint(x: 180, y: 320);
+        scoreLabel.color = .black
+        addChild(scoreLabel)
+        
+        
+    }
+    
+   
+     
     
 //    funzione inserisci giocatore
     func spawnPlayer() {
@@ -42,8 +66,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player?.physicsBody?.collisionBitMask = groundCategory
         player?.physicsBody?.contactTestBitMask = monsterCategory
         player?.size = CGSize(width: 81, height: 106)
-        player?.anchorPoint = CGPoint(x: 0, y: 0)
-        player?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.7)
+        
+        
         
         
         addChild(player!)
@@ -147,8 +171,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    funzione salto
     func jump() {
-        let jumpAction = SKAction.moveBy(x: 0, y: 660, duration: 1.0)
-        player?.run(jumpAction)
         
         if(movementRight == false) {
             player?.texture = SKTexture(imageNamed: "Polar-Bear-Jump-Reflect")
@@ -177,6 +199,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 //self.player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
             }
+            self.run(SKAction.sequence([wait, run]))
+        }
             self.run(SKAction.sequence([wait, run]))
         }
     }
@@ -224,9 +248,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player?.constraints = [lockToCenter]
         
         if(monster != nil)
-        {
+            
+        { score = 0
             monster1?.position = CGPoint(x: 3000, y: 4000)
         }
+        
         
         monster?.position = CGPoint(x: size.width * 0.8, y: size.height * 0.6)
         
@@ -238,6 +264,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnFloor()
         spawnPlayer()
         activateMic()
+        spawnscore()
         
         run(SKAction.repeatForever(
             SKAction.sequence([
@@ -245,9 +272,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 SKAction.wait(forDuration: 2.5)
                 ])
         ), withKey: "repeater")
+        
     }
     
     //This function transition the scene to a game over scene, it's called when a monster touches the player
+   
+    
+    
+    
+    
     
     func gameOver() {
         let transition = SKTransition.fade(withDuration: 1)
@@ -292,6 +325,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    collisioni e fisica
         func projectileDidCollideWithMonster(projectile: SKSpriteNode, monster: SKSpriteNode) {
              print("monster hit 3")
+            
+             score+=1
+               
+               
              
             
              projectile.position = CGPoint(x: -4000, y: -4000)
@@ -342,3 +379,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
 }
+
+
+
