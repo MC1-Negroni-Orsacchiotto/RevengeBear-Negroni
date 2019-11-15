@@ -22,7 +22,7 @@ class StartScene: SKScene {
                            gameScene.scaleMode = .aspectFill
                            self.view?.presentScene(gameScene, transition: transition)
                            
-                       }
+            }
         }
     }
 }

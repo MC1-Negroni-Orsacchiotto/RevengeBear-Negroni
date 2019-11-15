@@ -234,21 +234,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          }
     
         func didBegin(_ contact: SKPhysicsContact) {
-        var firstBody:SKPhysicsBody
-        var secondBody:SKPhysicsBody
-        
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
+            
+            var firstBody:SKPhysicsBody
+            var secondBody:SKPhysicsBody
+            
+            if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+                firstBody = contact.bodyA
+                secondBody = contact.bodyB
+            }
+            else {
+                firstBody = contact.bodyB
+                secondBody = contact.bodyA
+            }
+            
+            if firstBody.categoryBitMask == playerCategory && secondBody.categoryBitMask == monsterCategory {
+               print("monster contacted with player")
+               gameOver()
+            }
         }
-        else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-        }
-        
-          if firstBody.categoryBitMask == playerCategory && secondBody.categoryBitMask == monsterCategory {
-           print("monster contacted with player")
-           gameOver()
-        }
-    }
 }
