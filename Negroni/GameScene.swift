@@ -212,10 +212,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //This function transition the scene to a game over scene, it's called when a monster touches the player
     
     func gameOver() {
-//        let transition = SKTransition.fade(withDuration: 1)
-//        gameScene = SKScene(fileNamed: "GameOverScene")
-//        gameScene?.scaleMode = .aspectFill
-//        self.view?.presentScene(gameScene!, transition: transition)
+        let transition = SKTransition.fade(withDuration: 1)
+        gameScene = SKScene(fileNamed: "GameOverScene")
+        gameScene?.scaleMode = .aspectFill
+        self.view?.presentScene(gameScene!, transition: transition)
     }
     
 // tasti
