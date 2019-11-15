@@ -24,6 +24,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var levelTimer = Timer()
     let Level_Threshold:Float = -6.0
     var movementRight = true
+    var is_jumped = false
+    
+    var image_bear_array:[SKTexture]?
+    
     
     let playerCategory:UInt32 = 0x1 << 0
     let groundCategory:UInt32 = 0x1 << 1
@@ -40,6 +44,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player?.size = CGSize(width: 81, height: 106)
         player?.anchorPoint = CGPoint(x: 0, y: 0)
         player?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.7)
+        
+        
         addChild(player!)
         
         let range = SKRange(lowerLimit: 0, upperLimit: 650)
@@ -143,9 +149,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func jump() {
         let jumpAction = SKAction.moveBy(x: 0, y: 660, duration: 1.0)
         player?.run(jumpAction)
-        player?.texture = SKTexture(imageNamed: "Polar-Bear-Jump")
+        
+        if(movementRight == false) {
+            player?.texture = SKTexture(imageNamed: "Polar-Bear-Jump-Reflect")
+        }
+        
+        else if(movementRight == true) {
+            player?.texture = SKTexture(imageNamed: "Polar-Bear-Jump")
+        }
         
         
+        
+        if(is_jumped == true)
+        {
+            let wait = SKAction.wait(forDuration: 0.8)
+            let run = SKAction.run {
+                
+                if(self.movementRight == false) {
+//                    self.movementRight = true
+                    self.player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand-Reflect")
+                }
+                
+                if(self.movementRight == true) {
+//                    self.movementRight = false
+                    self.player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
+                }
+                
+                //self.player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
+            }
+            self.run(SKAction.sequence([wait, run]))
+        }
     }
     
 //        microphone
@@ -293,8 +326,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case playerCategory | monsterCategory:
                 print("monster hit player")
                 gameOver()
+            
+                
             default:
                 print("undetected collision")
+                
             }
+            
+            switch contactMask {
+                case playerCategory | groundCategory:
+                    is_jumped = false
+                default:
+                    is_jumped = true
+            }
+            
         }
 }
