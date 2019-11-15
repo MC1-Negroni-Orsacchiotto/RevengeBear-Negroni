@@ -32,7 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    funzione inserisci giocatore
     func spawnPlayer() {
-        player = SKSpriteNode(imageNamed: "player")
+        player = SKSpriteNode(imageNamed: "Polar-Bear-Stand")
         player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 81, height: 80))
         player?.physicsBody?.categoryBitMask = playerCategory
         player?.physicsBody?.collisionBitMask = groundCategory
@@ -122,7 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if direction == true {
             if(movementRight == false) {
             movementRight = true
-            player?.texture = SKTexture(imageNamed: "player")
+            player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
             }
             let moveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(moveAction)
@@ -131,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else {
             if(movementRight == true) {
                 movementRight = false
-                player?.texture = SKTexture(imageNamed: "playerOrizontal")
+                player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand-Reflect")
             }
             let moveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(moveAction)
@@ -143,6 +143,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func jump() {
         let jumpAction = SKAction.moveBy(x: 0, y: 660, duration: 1.0)
         player?.run(jumpAction)
+        player?.texture = SKTexture(imageNamed: "Polar-Bear-Jump")
+        
+        
     }
     
 //        microphone
