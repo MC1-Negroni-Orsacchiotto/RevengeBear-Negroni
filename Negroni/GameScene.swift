@@ -213,9 +213,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player?.constraints = [lockToCenter]
         
         if(monster != nil)
-        {
+            
+        { score = 0
             monster1?.position = CGPoint(x: 3000, y: 4000)
         }
+        
         
         monster?.position = CGPoint(x: size.width * 0.8, y: size.height * 0.6)
         
