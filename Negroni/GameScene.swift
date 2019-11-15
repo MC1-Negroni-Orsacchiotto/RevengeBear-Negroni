@@ -6,13 +6,15 @@
 //  Copyright © 2019 Marco Spina. All rights reserved.
 //
 
+
 import SpriteKit
 import GameplayKit
 import AVFoundation
 import CoreAudio
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-//    aaaaa
+//    Varibili e costanti
+    var gameScene:SKScene?
     var player:SKSpriteNode?
     var floor:SKSpriteNode?
     var monster:SKSpriteNode?
@@ -27,7 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let monsterCategory:UInt32 = 0x1 << 2
     let projectileCategory:UInt32 = 0x1 << 3
     
-//    aaaaaa
+//    funzione inserisci giocatore
     func spawnPlayer() {
         player = SKSpriteNode(imageNamed: "player")
         player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 88, height: 128))
@@ -48,6 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         border.restitution = 1
     }
     
+//    funzione inserisci pavimenti
     func spawnFloor() {
         floor = self.childNode(withName: "floor") as? SKSpriteNode
         floor?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 4000, height: 86))
@@ -55,9 +58,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         floor?.physicsBody?.collisionBitMask = playerCategory
         floor?.physicsBody?.affectedByGravity = true
         floor?.physicsBody?.isDynamic = false
-
     }
     
+//    funzione inserisci mostri
     func spawnMonsters() {
         monster = SKSpriteNode(imageNamed: "monster")
         monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 88, height: 128))
@@ -78,6 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        monster?.run(SKAction.sequence([actionMove, actionMoveDone]))
     }
     
+//    funzione inserisci proiettile
     func spawnProjectile() {
         projectile = SKSpriteNode(imageNamed: "projectile.png")
         projectile?.physicsBody? = SKPhysicsBody(circleOfRadius: projectile!.size.width / 2)
@@ -86,73 +90,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile?.physicsBody?.contactTestBitMask = monsterCategory
         projectile?.physicsBody?.linearDamping = 0
         projectile?.anchorPoint = CGPoint(x: 0, y: 0)
-        
-        if(movementRight == true)
-        {
-            projectile?.position = CGPoint(x: (player?.position.x)! + 80, y: (player?.position.y)! + 60)
-        }
-        else
-        {
-            projectile?.position = CGPoint(x: (player?.position.x)! - 7, y: (player?.position.y)! + 60)
-        }
-        
+        projectile?.position = CGPoint(x: (player?.position.x)! + 80, y: (player?.position.y)! + 60)
         projectile?.size = CGSize(width: 10, height: 10)
         addChild(projectile!)
-        
-        var projectileMoveAction:SKAction?
-        
-        if(movementRight == true)
-        {
-            projectileMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
-        }
-        else
-        {
-            
-            projectileMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
-        }
-        
-        let repeatAction = SKAction.repeatForever(projectileMoveAction!)
+        let projectileMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+        let repeatAction = SKAction.repeatForever(projectileMoveAction)
         projectile?.run(repeatAction)
-        
-        
     }
     
+//    funzione movimento
     func move(direction: Bool) {
-    
-    if direction == true {
-    
-        
-        if(movementRight == false)
-        {
+        if direction == true {
+            if(movementRight == false) {
             movementRight = true
             player?.texture = SKTexture(imageNamed: "player")
-        }
-        
-        
-        let moveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
-        let repeatAction = SKAction.repeatForever(moveAction)
-        player?.run(repeatAction)
-    } //End IF
-    
-    else {
-        
-        if(movementRight == true)
-        {
-            movementRight = false
-            player?.texture = SKTexture(imageNamed: "playerOrizontal")
-        }
-        let moveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
-        let repeatAction = SKAction.repeatForever(moveAction)
-        player?.run(repeatAction)
+            }
+            let moveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+            let repeatAction = SKAction.repeatForever(moveAction)
+            player?.run(repeatAction)
+        } //End IF
+        else {
+            if(movementRight == true) {
+                movementRight = false
+                player?.texture = SKTexture(imageNamed: "playerOrizontal")
+            }
+            let moveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
+            let repeatAction = SKAction.repeatForever(moveAction)
+            player?.run(repeatAction)
         }
     }
     
+//    funzione salto
     func jump() {
         let jumpAction = SKAction.moveBy(x: 0, y: 550, duration: 1.0)
         player?.run(jumpAction)
     }
     
-    //        microphone
+//        microphone
     func activateMic() {
     let documents = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
     let url = documents.appendingPathComponent("record.caf")
@@ -183,17 +157,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("mic activated")
         }
         
-        }
+    }
+// end microphone
     
-            // end microphone
-    
-    func resetGame()
-    {
+//    reset
+    func resetGame() {
         player?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.7)
         let range = SKRange(lowerLimit: 0, upperLimit: 650)
         let lockToCenter = SKConstraint.positionX(range)
         player?.constraints = [lockToCenter]
-        
     }
     
     override func didMove(to view: SKView) {
@@ -209,11 +181,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 SKAction.wait(forDuration: 2.5)
                 ])
         ), withKey: "repeater")
-        
-    
-        
     }
     
+    //This function transition the scene to a game over scene, it's called when a monster touches the player
+    
+    func gameOver() {
+        let transition = SKTransition.fade(withDuration: 1)
+        gameScene = SKScene(fileNamed: "GameOverScene")
+        gameScene?.scaleMode = .aspectFill
+        self.view?.presentScene(gameScene!, transition: transition)
+    }
+    
+// tasti
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let location = touch.previousLocation(in: self)
@@ -244,7 +223,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
            player?.removeAllActions()
        }
+//    end tasti
     
+//    collisioni e fisica
         func projectileDidCollideWithMonster(projectile: SKSpriteNode, monster: SKSpriteNode) {
              print("monster hit")
              projectile.removeFromParent()
@@ -267,15 +248,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
           if firstBody.categoryBitMask == playerCategory && secondBody.categoryBitMask == monsterCategory {
            print("monster contacted with player")
+           gameOver()
         }
-            
-
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
     }
 }
-//aaaaa
-
-//cacca
