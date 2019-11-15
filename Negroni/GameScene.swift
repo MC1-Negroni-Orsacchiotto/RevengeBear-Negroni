@@ -54,7 +54,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    funzione inserisci giocatore
     func spawnPlayer() {
-        player = SKSpriteNode(imageNamed: "player")
+        player = SKSpriteNode(imageNamed: "Polar-Bear-Stand")
         player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 81, height: 80))
         player?.physicsBody?.categoryBitMask = playerCategory
         player?.physicsBody?.collisionBitMask = groundCategory
@@ -144,7 +144,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if direction == true {
             if(movementRight == false) {
             movementRight = true
-            player?.texture = SKTexture(imageNamed: "player")
+            player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
             }
             let moveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(moveAction)
@@ -153,7 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else {
             if(movementRight == true) {
                 movementRight = false
-                player?.texture = SKTexture(imageNamed: "playerOrizontal")
+                player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand-Reflect")
             }
             let moveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(moveAction)
@@ -165,20 +165,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func jump() {
         let jumpAction = SKAction.moveBy(x: 0, y: 660, duration: 1.0)
         player?.run(jumpAction)
+        player?.texture = SKTexture(imageNamed: "Polar-Bear-Jump")
+        
+        
     }
     
 //        microphone
     func activateMic() {
-    let documents = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
-    let url = documents.appendingPathComponent("record.caf")
-    
-    let recordSettings: [String: Any] = [AVFormatIDKey: kAudioFormatAppleIMA4, AVSampleRateKey: 44100.0, AVNumberOfChannelsKey: 0, AVEncoderBitRateKey: 12800, AVLinearPCMBitDepthKey: 16, AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue]
-    
-    let audioSession = AVAudioSession.sharedInstance()
-    do{
-        try audioSession.setCategory(AVAudioSession.Category.playAndRecord)
-        try audioSession.setActive(true)
-        try recorder = AVAudioRecorder(url: url, settings: recordSettings)
+        
+        let documents = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0])
+        let url = documents.appendingPathComponent("record.caf")
+        
+        let recordSettings: [String: Any] = [AVFormatIDKey: kAudioFormatAppleIMA4, AVSampleRateKey: 44100.0, AVNumberOfChannelsKey: 0, AVEncoderBitRateKey: 12800, AVLinearPCMBitDepthKey: 16, AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue]
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        do{
+            try audioSession.setCategory(AVAudioSession.Category.playAndRecord)
+            try audioSession.setActive(true)
+            try recorder = AVAudioRecorder(url: url, settings: recordSettings)
     } catch {
         return
     }
@@ -283,7 +287,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    collisioni e fisica
         func projectileDidCollideWithMonster(projectile: SKSpriteNode, monster: SKSpriteNode) {
-             print("monster hit")
+             print("monster hit 3")
+             
+            
+             projectile.position = CGPoint(x: -4000, y: -4000)
+                
+            
+//             if(monster1 != nil)
+//             {
+//                monster1!.position = CGPoint(x: -4000, y: -4000)
+//                monster1?.removeFromParent()
+//             }
+//             else
+//             {
+//                monster.position = CGPoint(x: -4000, y: -4000)
+//                monster.removeFromParent()
+//             }
+//
+             monster.position = CGPoint(x: -4000, y: -4000)
+            
              projectile.removeFromParent()
              monster.removeFromParent()
         
@@ -296,6 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch contactMask {
             case projectileCategory | monsterCategory:
                 print("monster hit")
+                projectileDidCollideWithMonster(projectile: projectile!, monster: monster!)
             case playerCategory | monsterCategory:
                 print("monster hit player")
                 gameOver()
