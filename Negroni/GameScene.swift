@@ -71,8 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monster = SKSpriteNode(imageNamed: "monster")
         monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40, height: 80))
         monster?.physicsBody?.categoryBitMask = monsterCategory
-        monster?.physicsBody?.collisionBitMask = groundCategory | playerCategory | projectileCategory
-        //monster?.physicsBody?.contactTestBitMask = projectileCategory
+        monster?.physicsBody?.collisionBitMask = groundCategory
         monster?.physicsBody?.linearDamping = 0
         monster?.size = CGSize(width: 81, height: 106)
         monster?.anchorPoint = CGPoint(x: 0, y: 0)
