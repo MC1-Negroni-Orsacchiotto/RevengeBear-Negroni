@@ -37,20 +37,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let groundCategory:UInt32 = 0x1 << 1
     let monsterCategory:UInt32 = 0x1 << 2
     let projectileCategory:UInt32 = 0x1 << 3
+     
     
-
+    
+//    funzione dello score
     func spawnscore(){
-        scoreLabel = SKLabelNode(fontNamed: "Chalkduster"); scoreLabel.text = "Score: 0"; scoreLabel.horizontalAlignmentMode = .right; scoreLabel.position = CGPoint(x: 180, y: 190);
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster"); scoreLabel.text = "Score: \(score)"; scoreLabel.horizontalAlignmentMode = .right; scoreLabel.position = CGPoint(x: 180, y: 320);
         scoreLabel.color = .black
         addChild(scoreLabel)
         
         
     }
     
-    
-    
-    
-    
+   
+     
     
 //    funzione inserisci giocatore
     func spawnPlayer() {
@@ -288,6 +288,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    collisioni e fisica
         func projectileDidCollideWithMonster(projectile: SKSpriteNode, monster: SKSpriteNode) {
              print("monster hit 3")
+            
+             score+=1
+               
+               
              
             
              projectile.position = CGPoint(x: -4000, y: -4000)
