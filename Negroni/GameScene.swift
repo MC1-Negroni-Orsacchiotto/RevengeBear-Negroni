@@ -99,8 +99,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile?.position = CGPoint(x: (player?.position.x)! + 80, y: (player?.position.y)! + 60)
         projectile?.size = CGSize(width: 10, height: 10)
         addChild(projectile!)
-        let projectileMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
-        let repeatAction = SKAction.repeatForever(projectileMoveAction)
+        
+        var projectileMoveAction:SKAction?
+            
+        if(movementRight == true)
+        {
+            projectileMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+        }
+        
+        else
+        {
+            projectile?.position = CGPoint(x: (player?.position.x)! - 7, y: (player?.position.y)! + 60)
+            projectileMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
+        }
+        let repeatAction = SKAction.repeatForever(projectileMoveAction!)
         projectile?.run(repeatAction)
     }
     
@@ -200,10 +212,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //This function transition the scene to a game over scene, it's called when a monster touches the player
     
     func gameOver() {
-        let transition = SKTransition.fade(withDuration: 1)
-        gameScene = SKScene(fileNamed: "GameOverScene")
-        gameScene?.scaleMode = .aspectFill
-        self.view?.presentScene(gameScene!, transition: transition)
+//        let transition = SKTransition.fade(withDuration: 1)
+//        gameScene = SKScene(fileNamed: "GameOverScene")
+//        gameScene?.scaleMode = .aspectFill
+//        self.view?.presentScene(gameScene!, transition: transition)
     }
     
 // tasti
