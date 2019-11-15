@@ -13,6 +13,7 @@ import AVFoundation
 import CoreAudio
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
 //    Varibili e costanti
     var gameScene:SKScene?
     var player:SKSpriteNode?
@@ -25,10 +26,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let Level_Threshold:Float = -6.0
     var movementRight = true
     
+   
+    var scoreLabel: SKLabelNode!
+    var score: Int = 0 { didSet { scoreLabel.text = "Score: \(score)" } }
+    
+    
+    
+    
     let playerCategory:UInt32 = 0x1 << 0
     let groundCategory:UInt32 = 0x1 << 1
     let monsterCategory:UInt32 = 0x1 << 2
     let projectileCategory:UInt32 = 0x1 << 3
+    
+
+    func spawnscore(){
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster"); scoreLabel.text = "Score: 0"; scoreLabel.horizontalAlignmentMode = .right; scoreLabel.position = CGPoint(x: 180, y: 190);
+        scoreLabel.color = .black
+        addChild(scoreLabel)
+        
+        
+    }
+    
+    
+    
+    
+    
     
 //    funzione inserisci giocatore
     func spawnPlayer() {
@@ -201,6 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnFloor()
         spawnPlayer()
         activateMic()
+        spawnscore()
         
         run(SKAction.repeatForever(
             SKAction.sequence([
@@ -208,9 +231,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 SKAction.wait(forDuration: 2.5)
                 ])
         ), withKey: "repeater")
+        
     }
     
     //This function transition the scene to a game over scene, it's called when a monster touches the player
+   
+    
+    
+    
+    
     
     func gameOver() {
         let transition = SKTransition.fade(withDuration: 1)
@@ -275,3 +304,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
 }
+
+
+
