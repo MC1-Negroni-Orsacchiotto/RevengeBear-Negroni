@@ -33,7 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    funzione inserisci giocatore
     func spawnPlayer() {
         player = SKSpriteNode(imageNamed: "player")
-        player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 88, height: 128))
+        player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 81, height: 80))
         player?.physicsBody?.categoryBitMask = playerCategory
         player?.physicsBody?.collisionBitMask = groundCategory
         player?.physicsBody?.contactTestBitMask = monsterCategory
@@ -69,7 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         monster = SKSpriteNode(imageNamed: "monster")
-        monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 128))
+        monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40, height: 80))
         monster?.physicsBody?.categoryBitMask = monsterCategory
         monster?.physicsBody?.collisionBitMask = groundCategory | playerCategory | projectileCategory
         //monster?.physicsBody?.contactTestBitMask = projectileCategory
@@ -90,11 +90,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    funzione inserisci proiettile
     func spawnProjectile() {
         projectile = SKSpriteNode(imageNamed: "projectile.png")
-        projectile?.physicsBody? = SKPhysicsBody(circleOfRadius: projectile!.size.width / 2)
+        //projectile?.physicsBody? = SKPhysicsBody(circleOfRadius: projectile!.size.width / 2)
+        projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 80)) // temp for testing
         projectile?.physicsBody?.categoryBitMask = projectileCategory
-        projectile?.physicsBody?.collisionBitMask = monsterCategory
+        projectile?.physicsBody?.collisionBitMask = 0
         projectile?.physicsBody?.contactTestBitMask = monsterCategory
         projectile?.physicsBody?.linearDamping = 0
+        projectile?.physicsBody?.affectedByGravity = false
         projectile?.anchorPoint = CGPoint(x: 0, y: 0)
         projectile?.position = CGPoint(x: (player?.position.x)! + 80, y: (player?.position.y)! + 60)
         projectile?.size = CGSize(width: 10, height: 10)
@@ -140,7 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    funzione salto
     func jump() {
-        let jumpAction = SKAction.moveBy(x: 0, y: 550, duration: 1.0)
+        let jumpAction = SKAction.moveBy(x: 0, y: 660, duration: 1.0)
         player?.run(jumpAction)
     }
     
@@ -261,21 +263,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         func didBegin(_ contact: SKPhysicsContact) {
             
-            var firstBody:SKPhysicsBody
-            var secondBody:SKPhysicsBody
-            
-            if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-                firstBody = contact.bodyA
-                secondBody = contact.bodyB
-            }
-            else {
-                firstBody = contact.bodyB
-                secondBody = contact.bodyA
-            }
-            
-            if firstBody.categoryBitMask == playerCategory && secondBody.categoryBitMask == monsterCategory {
-               print("monster contacted with player")
-               gameOver()
+            let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+
+            switch contactMask {
+            case projectileCategory | monsterCategory:
+                print("monster hit")
+            case playerCategory | monsterCategory:
+                print("monster hit player")
+            default:
+                print("undetected collision")
             }
         }
 }
