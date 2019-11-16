@@ -48,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    funzione dello score
     func spawnscore(){
-        scoreLabel = SKLabelNode(fontNamed: "Chalkduster"); scoreLabel.text = "Score: \(score)"; scoreLabel.horizontalAlignmentMode = .right; scoreLabel.position = CGPoint(x: 180, y: 320);
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster"); scoreLabel.text = "Score: \(score)"; scoreLabel.horizontalAlignmentMode = .right; scoreLabel.position = CGPoint(x: 180, y: 345);
         scoreLabel.color = .black
         addChild(scoreLabel)
         
@@ -66,7 +66,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player?.physicsBody?.collisionBitMask = groundCategory
         player?.physicsBody?.contactTestBitMask = monsterCategory
         player?.size = CGSize(width: 81, height: 106)
-        
+        player?.anchorPoint = CGPoint(x: 0, y: 0)
+        player?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.7)
         
         
         
@@ -172,6 +173,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    funzione salto
     func jump() {
         
+        let jumpAction = SKAction.moveBy(x: 0, y: 660, duration: 1.0)
+        player?.run(jumpAction)
+        
         if(movementRight == false) {
             player?.texture = SKTexture(imageNamed: "Polar-Bear-Jump-Reflect")
         }
@@ -201,8 +205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             self.run(SKAction.sequence([wait, run]))
         }
-            self.run(SKAction.sequence([wait, run]))
-        }
+           
     }
     
 //        microphone
@@ -370,6 +373,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
             
+            //Switch controllo salto
             switch contactMask {
                 case playerCategory | groundCategory:
                     is_jumped = false
