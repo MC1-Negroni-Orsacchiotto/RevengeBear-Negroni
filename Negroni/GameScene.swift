@@ -29,7 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var movementRight = true
     var is_jumped = false
     
-    var texturesRun:[SKTexture] = [SKTexture(imageNamed: "Polar-Bear-Stand"),SKTexture(imageNamed: "Polar-Bear-Step-1")]
+    var texturesRun:[SKTexture] = [SKTexture(imageNamed: "Polar-Bear-Stand"),SKTexture(imageNamed: "Polar-Bear-Step-Left"), SKTexture(imageNamed: "Polar-Bear-Stand"), SKTexture(imageNamed: "Polar-Bear-Step-Right")]
 
     
     
@@ -424,7 +424,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 projectileDidCollideWithMonster(projectile: projectile!, monster: monster!)
             case playerCategory | monsterCategory:
                 print("monster hit player")
-                gameOver()
+                //gameOver()
             
                 
             default:

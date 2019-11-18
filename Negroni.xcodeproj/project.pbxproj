@@ -59,7 +59,7 @@
 		A3358D29237E8A42002AC36A /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
 		A3358D2B237E8A56002AC36A /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		D3284C59237DAD2D009CD9F3 /* StartScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StartScene.sks; sourceTree = "<group>"; };
-		D3919AAA237F02D2006D1D2D /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartScene.swift; path = "/Users/nikobeneduce/Desktop/RevengeBear-Negroni/Negroni/StartScene.swift"; sourceTree = "<absolute>"; };
+		D3919AAA237F02D2006D1D2D /* StartScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartScene.swift; path = "/Users/marcos/Desktop/RevengeBear-NegroniGIt10New/Negroni/StartScene.swift"; sourceTree = "<absolute>"; };
 		D3919AAC237F02F5006D1D2D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,6 +122,7 @@
 				8D2DF308237058D0004E263D /* GameViewController.swift */,
 				8D2DF30A237058D0004E263D /* Main.storyboard */,
 				8D2DF30D237058D1004E263D /* Assets.xcassets */,
+				8D2EFE132382F36A0084C139 /* Sounds */,
 				8D2DF30F237058D1004E263D /* LaunchScreen.storyboard */,
 				8D2DF312237058D1004E263D /* Info.plist */,
 			);
@@ -144,6 +145,13 @@
 				8D2DF328237058D1004E263D /* Info.plist */,
 			);
 			path = NegroniUITests;
+			sourceTree = "<group>";
+		};
+		8D2EFE132382F36A0084C139 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
