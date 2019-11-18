@@ -5,9 +5,15 @@ class GameOverScene : SKScene {
     
     var gameScene:SKScene?
     var playButton:SKSpriteNode?
+    var backgroundMusic:SKAudioNode?
     
     override func didMove(to view: SKView) {
         playButton = self.childNode(withName: "restartButton") as? SKSpriteNode
+        
+        if let musicURL = Bundle.main.url(forResource: "gameOver", withExtension: "caf") {
+               backgroundMusic = SKAudioNode(url: musicURL)
+                addChild(backgroundMusic!)
+           }
 
     }
     

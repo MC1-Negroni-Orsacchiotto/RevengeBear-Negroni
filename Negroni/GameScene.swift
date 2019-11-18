@@ -28,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let Level_Threshold:Float = -6.0
     var movementRight = true
     var is_jumped = false
+    var backgroundMusic:SKAudioNode?
     
     var texturesRun:[SKTexture] = [SKTexture(imageNamed: "Polar-Bear-Stand"),SKTexture(imageNamed: "Polar-Bear-Step-Left"), SKTexture(imageNamed: "Polar-Bear-Stand"), SKTexture(imageNamed: "Polar-Bear-Step-Right")]
 
@@ -137,6 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile?.anchorPoint = CGPoint(x: 0, y: 0)
         projectile?.position = CGPoint(x: (player?.position.x)! + 80, y: (player?.position.y)! + 60)
         projectile?.size = CGSize(width: 10, height: 10)
+        self.run(SKAction.playSoundFileNamed("shoot.m4a", waitForCompletion: true))
         addChild(projectile!)
         
         var projectileMoveAction:SKAction?
@@ -278,6 +280,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnPlayer()
         activateMic()
         spawnscore()
+        if let musicURL = Bundle.main.url(forResource: "bgm", withExtension: "caf") {
+                   backgroundMusic = SKAudioNode(url: musicURL)
+            let volume:SKAction? = SKAction.changeVolume(to: 15, duration: 0)
+            backgroundMusic?.run(volume!)
+                       addChild(backgroundMusic!)
+               }
         
         run(SKAction.repeatForever(
             SKAction.sequence([
@@ -424,7 +432,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 projectileDidCollideWithMonster(projectile: projectile!, monster: monster!)
             case playerCategory | monsterCategory:
                 print("monster hit player")
-                //gameOver()
+                gameOver()
             
                 
             default:
