@@ -23,9 +23,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var projectile:SKSpriteNode?
     var recorder:AVAudioRecorder?
     var levelTimer = Timer()
+    var leftButton:SKSpriteNode?
+    var rightButton:SKSpriteNode?
     let Level_Threshold:Float = -6.0
     var movementRight = true
     var is_jumped = false
+    
     
     var image_bear_array:[SKTexture]?
     
@@ -279,15 +282,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ])
         ), withKey: "repeater")
         
+        leftButton = self.childNode(withName: "left") as? SKSpriteNode
+        rightButton = self.childNode(withName: "right") as? SKSpriteNode
+
+        
     }
     
     //This function transition the scene to a game over scene, it's called when a monster touches the player
-   
-    
-    
-    
-    
-    
     func gameOver() {
         let transition = SKTransition.fade(withDuration: 1)
         gameScene = SKScene(fileNamed: "GameOverScene")
@@ -300,22 +301,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let touch = touches.first {
             let location = touch.previousLocation(in: self)
             let node = self.nodes(at: location).first
-            if node?.name == "right" {
+            if node?.name == "right" && scene?.isPaused == false{
                 move(direction: true)
+                rightButton?.texture = SKTexture(imageNamed: "ButtonRightPressed")
+
+                
             }
-            else if node?.name == "left" {
+            else if node?.name == "left" && scene?.isPaused == false {
                 move(direction: false)
-                let left = SKScene(fileNamed: "left")
-                left?.alpha = 0.0
-                
-//                let left_pressed = SKScene(fileNamed: "left_pressed")
-//                left_pressed?.alpha = 2.0
-                
+                leftButton?.texture = SKTexture(imageNamed: "ButtonLeftPressed")
             }
-            else if node?.name == "jump" {
+            else if node?.name == "jump" && scene?.isPaused == false {
                 jump()
             }
-            else if node?.name == "shoot" {
+            else if node?.name == "shoot" && scene?.isPaused == false {
                 spawnProjectile()
             }
             else if node?.name == "reset" {
@@ -354,6 +353,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
             }
+                
+                leftButton?.texture = SKTexture(imageNamed: "ButtonLeftUnpressed")
+                rightButton?.texture = SKTexture(imageNamed: "ButtonRightUnpressed")
+
        
        }
     }
@@ -380,6 +383,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     
                 }
+                
+                leftButton?.texture = SKTexture(imageNamed: "ButtonLeftUnpressed")
+                rightButton?.texture = SKTexture(imageNamed: "ButtonRightUnpressed")
+
+
             }
         }
 //    end tasti
@@ -424,7 +432,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 projectileDidCollideWithMonster(projectile: projectile!, monster: monster!)
             case playerCategory | monsterCategory:
                 print("monster hit player")
-                gameOver()
+                //gameOver()
             
                 
             default:
