@@ -143,13 +143,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         if(movementRight == true)
         {
-            projectileMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+            projectileMoveAction = SKAction.moveBy(x: 4, y: 0, duration: 0.01)
         }
         
         else
         {
             projectile?.position = CGPoint(x: (player?.position.x)! - 7, y: (player?.position.y)! + 60)
-            projectileMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
+            projectileMoveAction = SKAction.moveBy(x: -4, y: 0, duration: 0.01)
         }
         let repeatAction = SKAction.repeatForever(projectileMoveAction!)
         projectile?.run(repeatAction)
