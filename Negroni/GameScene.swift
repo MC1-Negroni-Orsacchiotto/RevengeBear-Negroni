@@ -29,6 +29,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var movementRight = true
     var is_jumped = false
     
+    var texturesRun:[SKTexture] = [SKTexture(imageNamed: "Polar-Bear-Stand"),SKTexture(imageNamed: "Polar-Bear-Step-1")]
+
+    
     
     var image_bear_array:[SKTexture]?
     
@@ -37,6 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel: SKLabelNode!
     var score: Int = 0 { didSet { scoreLabel.text = "Score: \(score)" } }
     
+
     
     
     
@@ -155,14 +159,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func move(direction: Bool) {
         if direction == true {
             
-            
-            
             if(movementRight == false) {
                 movementRight = true
                 player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
             }
+            let characterAnimation = SKAction.repeatForever(SKAction.animate(with: texturesRun, timePerFrame: 0.2))
             let moveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(moveAction)
+            player?.run(characterAnimation)
             player?.run(repeatAction)
         } //End IF
         else {
@@ -301,11 +305,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let touch = touches.first {
             let location = touch.previousLocation(in: self)
             let node = self.nodes(at: location).first
-            if node?.name == "right" && scene?.isPaused == false{
+            
+            if (node?.name == "right") && (scene?.isPaused == false)  {
                 move(direction: true)
                 rightButton?.texture = SKTexture(imageNamed: "ButtonRightPressed")
-
-                
             }
             else if node?.name == "left" && scene?.isPaused == false {
                 move(direction: false)
@@ -403,18 +406,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
              projectile.position = CGPoint(x: -4000, y: -4000)
                 
-            
-//             if(monster1 != nil)
-//             {
-//                monster1!.position = CGPoint(x: -4000, y: -4000)
-//                monster1?.removeFromParent()
-//             }
-//             else
-//             {
-//                monster.position = CGPoint(x: -4000, y: -4000)
-//                monster.removeFromParent()
-//             }
-//
+
              monster.position = CGPoint(x: -4000, y: -4000)
             
              projectile.removeFromParent()
@@ -432,7 +424,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 projectileDidCollideWithMonster(projectile: projectile!, monster: monster!)
             case playerCategory | monsterCategory:
                 print("monster hit player")
-                //gameOver()
+                gameOver()
             
                 
             default:
