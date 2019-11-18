@@ -321,6 +321,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             else if node?.name == "reset" {
                 resetGame()
             }
+            else if node?.name == "pause", let scene = self.scene {
+                if scene.isPaused {
+                    scene.isPaused = false
+                }
+                else {
+                    scene.isPaused = true
+                }
+            }
+
         }
     }
     
