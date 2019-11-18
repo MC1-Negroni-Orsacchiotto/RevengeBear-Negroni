@@ -151,9 +151,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    funzione movimento
     func move(direction: Bool) {
         if direction == true {
+            
+            
+            
             if(movementRight == false) {
-            movementRight = true
-            player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
+                movementRight = true
+                player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
             }
             let moveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(moveAction)
@@ -300,8 +303,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if node?.name == "right" {
                 move(direction: true)
             }
-          else if node?.name == "left" {
+            else if node?.name == "left" {
                 move(direction: false)
+                let left = SKScene(fileNamed: "left")
+                left?.alpha = 0.0
+                
+//                let left_pressed = SKScene(fileNamed: "left_pressed")
+//                left_pressed?.alpha = 2.0
+                
             }
             else if node?.name == "jump" {
                 jump()
@@ -317,12 +326,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
             player?.removeAllActions()
+        
+            if let touch = touches.first {
+            let location = touch.previousLocation(in: self)
+            let node = self.nodes(at: location).first
+                
+            if node?.name == "jump" {
+                is_jumped = false
+                
+                if(self.movementRight == false) {
+//                    self.movementRight = true
+                    self.player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand-Reflect")
+                }
+                
+                if(self.movementRight == true) {
+//                    self.movementRight = false
+                    self.player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
+                }
+                
+            }
        
        }
+    }
        
        override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
            player?.removeAllActions()
-       }
+        
+        
+            if let touch = touches.first {
+                let location = touch.previousLocation(in: self)
+                let node = self.nodes(at: location).first
+                    
+                if node?.name == "jump" {
+                    is_jumped = false
+                    
+                    if(self.movementRight == false) {
+    //                    self.movementRight = true
+                        self.player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand-Reflect")
+                    }
+                    
+                    if(self.movementRight == true) {
+    //                    self.movementRight = false
+                        self.player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand")
+                    }
+                    
+                }
+            }
+        }
 //    end tasti
     
 //    collisioni e fisica
