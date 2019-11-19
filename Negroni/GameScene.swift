@@ -76,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player?.physicsBody?.contactTestBitMask = monsterCategory
         player?.size = CGSize(width: 81, height: 106)
         player?.anchorPoint = CGPoint(x: 0, y: 0)
-        player?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.7)
+        player?.position = CGPoint(x: size.width * 0.5, y: size.height * 0.7)
         
         
         
@@ -107,6 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             monster1 = monster
         }
+        // GKRandomSource.sharedRandom().nextInt(upperBound: 3)
         
         monster = SKSpriteNode(imageNamed: "monster")
         monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40, height: 80))
@@ -115,15 +116,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monster?.physicsBody?.linearDamping = 0
         monster?.size = CGSize(width: 81, height: 106)
         monster?.anchorPoint = CGPoint(x: 0, y: 0)
-        monster?.position = CGPoint(x: size.width * 0.8, y: size.height * 0.6)
-        addChild(monster!)
+        
+        if GKRandomSource.sharedRandom().nextBool() == true {
+        monster?.position = CGPoint(x: size.width * 0.9, y: size.height * 0.1)
         let monsterMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
         let repeatAction = SKAction.repeatForever(monsterMoveAction)
         monster?.run(repeatAction)
+
+        }
+        else {
+            monster?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.2)
+            let monsterMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+            let repeatAction = SKAction.repeatForever(monsterMoveAction)
+            monster?.run(repeatAction)
+        }
+        addChild(monster!)
+        
+        
 //        let actionMove = SKAction.move(to: CGPoint(x: -100, y: 0), duration: TimeInterval(2))
 //        let actionMoveDone = SKAction.removeFromParent()
 //
 //        monster?.run(SKAction.sequence([actionMove, actionMoveDone]))
+        
+        
     }
     
 //    funzione inserisci proiettile
