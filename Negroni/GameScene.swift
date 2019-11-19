@@ -59,8 +59,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    funzione dello score
     func spawnscore(){
-        scoreLabel = SKLabelNode(fontNamed: "Chalkduster"); scoreLabel.text = "Score: \(score)"; scoreLabel.horizontalAlignmentMode = .right; scoreLabel.position = CGPoint(x: 180, y: 345);
-        scoreLabel.color = .black
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster"); scoreLabel.text = "Score: \(score)"; scoreLabel.horizontalAlignmentMode = .right; scoreLabel.position = CGPoint(x: 180, y: 351);
+        scoreLabel.fontColor = .black
+        
+        
+        
         addChild(scoreLabel)
         
         
@@ -164,13 +167,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         if(movementRight == true)
         {
-            projectileMoveAction = SKAction.moveBy(x: 4, y: 0, duration: 0.01)
+            projectileMoveAction = SKAction.moveBy(x: 5, y: 0, duration: 0.01)
         }
         
         else
         {
             projectile?.position = CGPoint(x: (player?.position.x)! - 7, y: (player?.position.y)! + 60)
-            projectileMoveAction = SKAction.moveBy(x: -4, y: 0, duration: 0.01)
+            projectileMoveAction = SKAction.moveBy(x: -5, y: 0, duration: 0.01)
         }
         let repeatAction = SKAction.repeatForever(projectileMoveAction!)
         projectile?.run(repeatAction)
