@@ -335,7 +335,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver() {
         let transition = SKTransition.fade(withDuration: 1)
         gameScene = SKScene(fileNamed: "GameOverScene")
-        gameScene?.scaleMode = .aspectFill
+        gameScene?.scaleMode = .aspectFit
         self.view?.presentScene(gameScene!, transition: transition)
     }
     
