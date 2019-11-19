@@ -32,6 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerLife = 3
     
     var texturesRun:[SKTexture] = [SKTexture(imageNamed: "Polar-Bear-Stand"),SKTexture(imageNamed: "Polar-Bear-Step-Left"), SKTexture(imageNamed: "Polar-Bear-Stand"), SKTexture(imageNamed: "Polar-Bear-Step-Right")]
+    
+    var texturesRun2:[SKTexture] = [SKTexture(imageNamed: "PlayerStandLeft"),SKTexture(imageNamed: "PlayerStepLeft"), SKTexture(imageNamed: "PlayerStandLeft"), SKTexture(imageNamed: "PlayerStepLeft")]
 
     
     
@@ -193,8 +195,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 movementRight = false
                 player?.texture = SKTexture(imageNamed: "Polar-Bear-Stand-Reflect")
             }
+             let characterAnimation2 = SKAction.repeatForever(SKAction.animate(with: texturesRun2, timePerFrame: 0.2))
             let moveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(moveAction)
+            player?.run(characterAnimation2)
             player?.run(repeatAction)
         }
     }
@@ -313,7 +317,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnscore()
         if let musicURL = Bundle.main.url(forResource: "bgm", withExtension: "m4a") {
                    backgroundMusic = SKAudioNode(url: musicURL)
-            let volume:SKAction? = SKAction.changeVolume(to: 2, duration: 0)
+            let volume:SKAction? = SKAction.changeVolume(to: 100, duration: 0)
             backgroundMusic?.run(volume!)
                        addChild(backgroundMusic!)
                }
