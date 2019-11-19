@@ -10,7 +10,7 @@ class GameOverScene : SKScene {
     override func didMove(to view: SKView) {
         playButton = self.childNode(withName: "restartButton") as? SKSpriteNode
         
-        if let musicURL = Bundle.main.url(forResource: "gameOver", withExtension: "caf") {
+        if let musicURL = Bundle.main.url(forResource: "gameOver", withExtension: "m4a") {
                backgroundMusic = SKAudioNode(url: musicURL)
                 addChild(backgroundMusic!)
            }

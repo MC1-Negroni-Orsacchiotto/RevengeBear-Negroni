@@ -280,7 +280,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnPlayer()
         activateMic()
         spawnscore()
-        if let musicURL = Bundle.main.url(forResource: "bgm", withExtension: "caf") {
+        if let musicURL = Bundle.main.url(forResource: "bgm", withExtension: "m4a") {
                    backgroundMusic = SKAudioNode(url: musicURL)
             let volume:SKAction? = SKAction.changeVolume(to: 15, duration: 0)
             backgroundMusic?.run(volume!)
