@@ -279,9 +279,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerLife -= 1
         let knockBackAction = SKAction.moveBy(x: -30, y: 20, duration: 0.1)
         player?.run(knockBackAction)
-        if playerLife == 0 {
-        gameOver()
-        
+        if playerLife == 2 {
+            childNode(withName: "Heart_3")?.alpha = 0.0
+        } else if playerLife == 1 {
+            childNode(withName: "Heart_2")?.alpha = 0.0
+        } else if playerLife == 0 {
+            childNode(withName: "Heart_1")?.alpha = 0.0
+            gameOver()
         }
     }
     
