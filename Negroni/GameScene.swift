@@ -21,12 +21,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var monster:SKSpriteNode?
     var monster1:SKSpriteNode?
     var projectile:SKSpriteNode?
+    var smog:SKSpriteNode?
     var m_projectile:SKSpriteNode?
     var recorder:AVAudioRecorder?
     var levelTimer = Timer()
     var leftButton:SKSpriteNode?
     var rightButton:SKSpriteNode?
-    let Level_Threshold:Float = -6.0
+    let Level_Threshold:Float = -4.5
     var movementRight = true
     var is_jumped = false
     var backgroundMusic:SKAudioNode?
@@ -82,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    funzione inserisci giocatore
     func spawnPlayer() {
         player = SKSpriteNode(imageNamed: "Polar-Bear-Stand")
-        player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 81, height: 80))
+        player?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 75, height: 75))
         player?.physicsBody?.categoryBitMask = playerCategory
         player?.physicsBody?.collisionBitMask = groundCategory
         player?.physicsBody?.contactTestBitMask = monsterCategory
@@ -234,8 +235,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    funzione inserisci proiettile
     func spawnProjectile() {
         projectile = SKSpriteNode(imageNamed: "projectile.png")
-        
-        projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 10)) // temp for testing
+        //projectile?.physicsBody? = SKPhysicsBody(circleOfRadius: projectile!.size.width / 2)
+        projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 80)) // temp for testing
         projectile?.physicsBody?.categoryBitMask = projectileCategory
         projectile?.physicsBody?.collisionBitMask = 0
         projectile?.physicsBody?.contactTestBitMask = monsterCategory
@@ -264,6 +265,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         let repeatAction = SKAction.repeatForever(projectileMoveAction!)
         projectile?.run(repeatAction)
+    }
+    
+    func spawnSmog() {
+        smog = SKSpriteNode(imageNamed: "smog")
+        smog?.size = CGSize(width: 40, height: 40)
+        smog?.position = CGPoint(x: size.width * 0.5, y: size.height * 0.7)
+        addChild(smog!)
+        activateMic()
     }
     
 //    funzione movimento
@@ -361,6 +370,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let level = recorder!.averagePower(forChannel: 0)
         if level > Level_Threshold {
             print("mic activated")
+            smog?.removeFromParent()
+            recorder?.isMeteringEnabled = false
+
         }
         
     }
@@ -408,8 +420,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         spawnFloor()
         spawnPlayer()
-        activateMic()
         spawnscore()
+
         if let musicURL = Bundle.main.url(forResource: "bgm", withExtension: "m4a") {
                    backgroundMusic = SKAudioNode(url: musicURL)
             let volume:SKAction? = SKAction.changeVolume(to: 100, duration: 0)
@@ -539,7 +551,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
              score+=1
                
-               
+            if score % 5 == 0 {
+                spawnSmog()
+            }
              
             
              projectile.position = CGPoint(x: -4000, y: -4000)
