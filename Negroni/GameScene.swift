@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var monster:SKSpriteNode?
     var monster1:SKSpriteNode?
     var projectile:SKSpriteNode?
+    var m_projectile:SKSpriteNode?
     var recorder:AVAudioRecorder?
     var levelTimer = Timer()
     var leftButton:SKSpriteNode?
@@ -59,6 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let groundCategory:UInt32 = 0x1 << 1
     let monsterCategory:UInt32 = 0x1 << 2
     let projectileCategory:UInt32 = 0x1 << 3
+    let m_projectileCategory:UInt32 = 0x1 << 4
      
     
     
@@ -127,9 +129,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monster?.size = CGSize(width: 81, height: 106)
         monster?.anchorPoint = CGPoint(x: 0, y: 0)
         
+        
+        
+        
         if GKRandomSource.sharedRandom().nextBool() == true {
             monster?.position = CGPoint(x: size.width * 0.9, y: size.height * 0.1)
-            let monsterMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
+            let monsterMoveAction = SKAction.moveBy(x: -2, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(monsterMoveAction)
             monster?.texture = SKTexture(imageNamed: "monster_reflect")
             
@@ -137,11 +142,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             monster?.run(characterAnimation)
             
             monster?.run(repeatAction)
+            let wait = SKAction.wait(forDuration: 0.3)
+            let run = SKAction.run {
+                
+                self.monsterFire(is_left: true)
+                
+                
+            }
+            self.run(SKAction.sequence([wait, run]))
+            
 
         }
         else {
             monster?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.2)
-            let monsterMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+            let monsterMoveAction = SKAction.moveBy(x: 2, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(monsterMoveAction)
             monster?.texture = SKTexture(imageNamed: "monster")
             
@@ -149,6 +163,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             monster?.run(characterAnimation)
             
             monster?.run(repeatAction)
+            
+            let wait = SKAction.wait(forDuration: 0.3)
+            let run = SKAction.run {
+                
+                self.monsterFire(is_left: false)
+                
+                
+            }
+            self.run(SKAction.sequence([wait, run]))
         }
         addChild(monster!)
         
@@ -161,11 +184,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func monsterFire(is_left: Bool)
+    {
+        
+        
+        
+        m_projectile = SKSpriteNode(imageNamed: "ShitBullet")
+        
+        m_projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 10)) // temp for testing
+        m_projectile?.physicsBody?.categoryBitMask = m_projectileCategory
+        m_projectile?.physicsBody?.collisionBitMask = 0
+        m_projectile?.physicsBody?.contactTestBitMask = playerCategory
+        m_projectile?.physicsBody?.linearDamping = 0
+        m_projectile?.physicsBody?.affectedByGravity = false
+        m_projectile?.anchorPoint = CGPoint(x: 0, y: 0)
+        m_projectile?.size = CGSize(width: 10, height: 10)
+//        m_projectile?.physicsBody = SKPhysicsBody(circleOfRadius: m_projectile!.size.width / 2)
+        
+        if(is_left == true)
+        {
+            m_projectile?.position = CGPoint(x: (monster?.position.x)! - 80, y: (monster?.position.y)! + 60)
+        }
+        else
+        {
+            m_projectile?.position = CGPoint(x: (monster?.position.x)! + 80, y: (monster?.position.y)! + 60)
+        }
+        
+        
+        let projectileSound = SKAction.playSoundFileNamed("shoot.m4a", waitForCompletion: false)
+        run(projectileSound)
+        addChild((m_projectile!))
+        
+        var projectileMoveAction2:SKAction?
+            
+        if(is_left == true)
+        {
+            projectileMoveAction2 = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
+        }
+        
+        else
+        {
+            projectileMoveAction2 = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+        }
+        let repeatAction = SKAction.repeatForever(projectileMoveAction2!)
+        m_projectile?.run(repeatAction)
+    }
+    
+    
 //    funzione inserisci proiettile
     func spawnProjectile() {
         projectile = SKSpriteNode(imageNamed: "projectile.png")
-        //projectile?.physicsBody? = SKPhysicsBody(circleOfRadius: projectile!.size.width / 2)
-        projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 80)) // temp for testing
+        
+        projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 10)) // temp for testing
         projectile?.physicsBody?.categoryBitMask = projectileCategory
         projectile?.physicsBody?.collisionBitMask = 0
         projectile?.physicsBody?.contactTestBitMask = monsterCategory
@@ -174,6 +244,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         projectile?.anchorPoint = CGPoint(x: 0, y: 0)
         projectile?.position = CGPoint(x: (player?.position.x)! + 80, y: (player?.position.y)! + 60)
         projectile?.size = CGSize(width: 10, height: 10)
+//        projectile?.physicsBody = SKPhysicsBody(circleOfRadius: projectile!.size.width / 2)
+        
         let projectileSound = SKAction.playSoundFileNamed("shoot.m4a", waitForCompletion: false)
         run(projectileSound)
         addChild(projectile!)
@@ -480,6 +552,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
          }
     
+    
+    func projectileDidCollideWithPlayer(m_projectile: SKSpriteNode, player: SKSpriteNode)
+    {
+        
+        loseLife()
+        m_projectile.position = CGPoint(x: -4000, y: -4000)
+        m_projectile.removeFromParent()
+
+    }
+    
         func didBegin(_ contact: SKPhysicsContact) {
             
             let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
@@ -492,7 +574,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("monster hit player")
                 monster?.removeFromParent()
                 loseLife()
-            
+            case m_projectileCategory | playerCategory:
+                print("monster fire player")
+                projectileDidCollideWithPlayer(m_projectile: m_projectile!, player: player!)
+                
                 
             default:
                 print("undetected collision")
