@@ -192,7 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         m_projectile = SKSpriteNode(imageNamed: "ShitBullet")
         
-        m_projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 10)) // temp for testing
+        m_projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 70)) // temp for testing
         m_projectile?.physicsBody?.categoryBitMask = m_projectileCategory
         m_projectile?.physicsBody?.collisionBitMask = 0
         m_projectile?.physicsBody?.contactTestBitMask = playerCategory
@@ -236,7 +236,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func spawnProjectile() {
         projectile = SKSpriteNode(imageNamed: "projectile.png")
         //projectile?.physicsBody? = SKPhysicsBody(circleOfRadius: projectile!.size.width / 2)
-        projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 80)) // temp for testing
+        projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 70)) // temp for testing
         projectile?.physicsBody?.categoryBitMask = projectileCategory
         projectile?.physicsBody?.collisionBitMask = 0
         projectile?.physicsBody?.contactTestBitMask = monsterCategory

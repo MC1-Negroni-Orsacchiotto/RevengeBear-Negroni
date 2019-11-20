@@ -16,10 +16,9 @@
 		8D2DF311237058D1004E263D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D2DF30F237058D1004E263D /* LaunchScreen.storyboard */; };
 		8D2DF31C237058D1004E263D /* NegroniTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2DF31B237058D1004E263D /* NegroniTests.swift */; };
 		8D2DF327237058D1004E263D /* NegroniUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2DF326237058D1004E263D /* NegroniUITests.swift */; };
-		8D2EFE262382F5A30084C139 /* shoot.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EFE232382F5A30084C139 /* shoot.caf */; };
-		8D2EFE272382F5A30084C139 /* bgm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EFE242382F5A30084C139 /* bgm.caf */; };
-		8D2EFE282382F5A30084C139 /* gameOver.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EFE252382F5A30084C139 /* gameOver.caf */; };
-		8D2EFE2A2382FB9A0084C139 /* shoot.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EFE292382FB9A0084C139 /* shoot.m4a */; };
+		8D2EFE4623859F970084C139 /* bgm.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EFE4323859F970084C139 /* bgm.m4a */; };
+		8D2EFE4723859F970084C139 /* gameOver.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EFE4423859F970084C139 /* gameOver.m4a */; };
+		8D2EFE4823859F970084C139 /* shoot.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EFE4523859F970084C139 /* shoot.m4a */; };
 		A3358D2A237E8A42002AC36A /* GameOverScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A3358D29237E8A42002AC36A /* GameOverScene.sks */; };
 		A3358D2C237E8A56002AC36A /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3358D2B237E8A56002AC36A /* GameOverScene.swift */; };
 		D3284C5A237DAD2D009CD9F3 /* StartScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D3284C59237DAD2D009CD9F3 /* StartScene.sks */; };
@@ -60,10 +59,9 @@
 		8D2DF322237058D1004E263D /* NegroniUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NegroniUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D2DF326237058D1004E263D /* NegroniUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NegroniUITests.swift; sourceTree = "<group>"; };
 		8D2DF328237058D1004E263D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8D2EFE232382F5A30084C139 /* shoot.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shoot.caf; sourceTree = "<group>"; };
-		8D2EFE242382F5A30084C139 /* bgm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bgm.caf; sourceTree = "<group>"; };
-		8D2EFE252382F5A30084C139 /* gameOver.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameOver.caf; sourceTree = "<group>"; };
-		8D2EFE292382FB9A0084C139 /* shoot.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = shoot.m4a; sourceTree = "<group>"; };
+		8D2EFE4323859F970084C139 /* bgm.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bgm.m4a; sourceTree = "<group>"; };
+		8D2EFE4423859F970084C139 /* gameOver.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameOver.m4a; sourceTree = "<group>"; };
+		8D2EFE4523859F970084C139 /* shoot.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = shoot.m4a; sourceTree = "<group>"; };
 		A3358D29237E8A42002AC36A /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
 		A3358D2B237E8A56002AC36A /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		D3284C59237DAD2D009CD9F3 /* StartScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StartScene.sks; sourceTree = "<group>"; };
@@ -129,8 +127,8 @@
 				A3358D2B237E8A56002AC36A /* GameOverScene.swift */,
 				8D2DF308237058D0004E263D /* GameViewController.swift */,
 				8D2DF30A237058D0004E263D /* Main.storyboard */,
+				8D2EFE4223859F970084C139 /* Sound */,
 				8D2DF30D237058D1004E263D /* Assets.xcassets */,
-				8D2EFE142382F57B0084C139 /* Sounds */,
 				8D2DF30F237058D1004E263D /* LaunchScreen.storyboard */,
 				8D2DF312237058D1004E263D /* Info.plist */,
 			);
@@ -155,16 +153,14 @@
 			path = NegroniUITests;
 			sourceTree = "<group>";
 		};
-		8D2EFE142382F57B0084C139 /* Sounds */ = {
+		8D2EFE4223859F970084C139 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
-				8D2EFE242382F5A30084C139 /* bgm.caf */,
-				8D2EFE252382F5A30084C139 /* gameOver.caf */,
-				8D2EFE232382F5A30084C139 /* shoot.caf */,
-				8D2EFE292382FB9A0084C139 /* shoot.m4a */,
+				8D2EFE4323859F970084C139 /* bgm.m4a */,
+				8D2EFE4423859F970084C139 /* gameOver.m4a */,
+				8D2EFE4523859F970084C139 /* shoot.m4a */,
 			);
-			name = Sounds;
-			path = ../../ColorGame/ColorGame/Sounds;
+			path = Sound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,17 +267,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D2EFE272382F5A30084C139 /* bgm.caf in Resources */,
-				8D2EFE2A2382FB9A0084C139 /* shoot.m4a in Resources */,
+				8D2EFE4823859F970084C139 /* shoot.m4a in Resources */,
 				A3358D2A237E8A42002AC36A /* GameOverScene.sks in Resources */,
 				8D2DF30C237058D0004E263D /* Main.storyboard in Resources */,
 				8D2DF30E237058D1004E263D /* Assets.xcassets in Resources */,
-				8D2EFE282382F5A30084C139 /* gameOver.caf in Resources */,
 				D3284C5A237DAD2D009CD9F3 /* StartScene.sks in Resources */,
+				8D2EFE4723859F970084C139 /* gameOver.m4a in Resources */,
 				D3919AAD237F02F6006D1D2D /* GameScene.sks in Resources */,
+				8D2EFE4623859F970084C139 /* bgm.m4a in Resources */,
 				8D2DF311237058D1004E263D /* LaunchScreen.storyboard in Resources */,
 				8D2DF305237058D0004E263D /* Actions.sks in Resources */,
-				8D2EFE262382F5A30084C139 /* shoot.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
