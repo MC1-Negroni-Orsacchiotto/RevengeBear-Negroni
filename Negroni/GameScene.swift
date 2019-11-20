@@ -36,6 +36,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var texturesRun2:[SKTexture] = [SKTexture(imageNamed: "PlayerStandLeft"),SKTexture(imageNamed: "PlayerStepLeft"), SKTexture(imageNamed: "PlayerStandLeft"), SKTexture(imageNamed: "PlayerStepLeft")]
 
     
+    var monsterRun:[SKTexture] = [SKTexture(imageNamed: "monster"), SKTexture(imageNamed: "ShitmanEnemyStep")]
+    
+    
+    var monsterReflectRun:[SKTexture] = [SKTexture(imageNamed: "monster_reflect"), SKTexture(imageNamed: "ShitmanEnemyStepLeft")]
+    
     
     var image_bear_array:[SKTexture]?
     
@@ -123,16 +128,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monster?.anchorPoint = CGPoint(x: 0, y: 0)
         
         if GKRandomSource.sharedRandom().nextBool() == true {
-        monster?.position = CGPoint(x: size.width * 0.9, y: size.height * 0.1)
-        let monsterMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
-        let repeatAction = SKAction.repeatForever(monsterMoveAction)
-        monster?.run(repeatAction)
+            monster?.position = CGPoint(x: size.width * 0.9, y: size.height * 0.1)
+            let monsterMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
+            let repeatAction = SKAction.repeatForever(monsterMoveAction)
+            monster?.texture = SKTexture(imageNamed: "monster_reflect")
+            
+            let characterAnimation = SKAction.repeatForever(SKAction.animate(with: monsterReflectRun, timePerFrame: 0.2))
+            monster?.run(characterAnimation)
+            
+            monster?.run(repeatAction)
 
         }
         else {
             monster?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.2)
             let monsterMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
             let repeatAction = SKAction.repeatForever(monsterMoveAction)
+            monster?.texture = SKTexture(imageNamed: "monster")
+            
+            let characterAnimation = SKAction.repeatForever(SKAction.animate(with: monsterRun, timePerFrame: 0.2))
+            monster?.run(characterAnimation)
+            
             monster?.run(repeatAction)
         }
         addChild(monster!)
@@ -292,6 +307,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             monster1?.position = CGPoint(x: 3000, y: 4000)
         }
         
+        playerLife = 3
+        childNode(withName: "Heart_3")?.alpha = 2.0
+        childNode(withName: "Heart_2")?.alpha = 2.0
+        childNode(withName: "Heart_1")?.alpha = 2.0
         
         monster?.position = CGPoint(x: size.width * 0.8, y: size.height * 0.6)
         
@@ -301,6 +320,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerLife -= 1
         let knockBackAction = SKAction.moveBy(x: -30, y: 20, duration: 0.1)
         player?.run(knockBackAction)
+        
         if playerLife == 2 {
             childNode(withName: "Heart_3")?.alpha = 0.0
         } else if playerLife == 1 {
