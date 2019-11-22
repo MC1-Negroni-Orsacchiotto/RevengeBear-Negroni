@@ -149,15 +149,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             monster?.position = CGPoint(x: size.width * 1.0, y: size.height * 0.2)
             
             
-            if(score <= 10)
+            if(score <= 5)
             {
                 monsterMoveAction = SKAction.moveBy(x: -1, y: 0, duration: 0.02)
             }
-            else if(score > 10 && score <= 25)
+            else if(score > 5 && score <= 15)
             {
                 monsterMoveAction = SKAction.moveBy(x: -2, y: 0, duration: 0.02)
             }
-            else if(score > 20 && score <= 45)
+            else if(score > 15 && score <= 35)
             {
                 monsterMoveAction = SKAction.moveBy(x: -2, y: 0, duration: 0.01)
             }
@@ -191,15 +191,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             monster?.position = CGPoint(x: size.width * -0.2, y: size.height * 0.2)
              
             var monsterMoveAction:SKAction?
-            if(score <= 10)
+            if(score <= 5)
             {
                 monsterMoveAction = SKAction.moveBy(x: 1, y: 0, duration: 0.02)
             }
-            else if(score > 10 && score <= 25)
+            else if(score > 5 && score <= 15)
             {
                 monsterMoveAction = SKAction.moveBy(x: 2, y: 0, duration: 0.02)
             }
-            else if(score > 20 && score <= 45)
+            else if(score > 15 && score <= 35)
             {
                 monsterMoveAction = SKAction.moveBy(x: 2, y: 0, duration: 0.01)
             }
@@ -604,10 +604,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                        addChild(backgroundMusic!)
                }
         
-        run(SKAction.repeatForever(
-            SKAction.sequence([
+        var random:Int?
+        random = GKRandomSource.sharedRandom().nextInt(upperBound: 3)
+        
+        
+        run(SKAction.repeatForever(SKAction.sequence([
                 SKAction.run(spawnMonsters), SKAction.run(spawnShitMonsters),
-                SKAction.wait(forDuration: 2.5)
+                SKAction.run {
+                    random = GKRandomSource.sharedRandom().nextInt(upperBound: 2)
+                    print(random)
+                },
+                SKAction.wait(forDuration: Double(random!)),
                 ])
         ), withKey: "repeater")
         
