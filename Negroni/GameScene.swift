@@ -45,6 +45,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var monsterReflectRun:[SKTexture] = [SKTexture(imageNamed: "monster_reflect"), SKTexture(imageNamed: "ShitmanEnemyStepLeft")]
     
     
+    
+    var monsterPetrolRun:[SKTexture] = [SKTexture(imageNamed: "PetrolmanEnemyBatStand"), SKTexture(imageNamed: "PetrolmanEnemyBatStep")]
+    
+    
+    var monsterPetrolReflectRun:[SKTexture] = [SKTexture(imageNamed: "PetrolmanEnemyBatStandReflect"), SKTexture(imageNamed: "PetrolmanEnemyBatStepReflect")]
+    
+    
     var image_bear_array:[SKTexture]?
     
     
@@ -123,7 +130,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         // GKRandomSource.sharedRandom().nextInt(upperBound: 3)
         
-        monster = SKSpriteNode(imageNamed: "monster")
+        
+        monster = SKSpriteNode(imageNamed: "PetrolmanEnemyBatStand")
         monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40, height: 80))
         monster?.physicsBody?.categoryBitMask = monsterCategory
         monster?.physicsBody?.collisionBitMask = groundCategory
@@ -159,9 +167,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             let repeatAction = SKAction.repeatForever(monsterMoveAction!)
-            monster?.texture = SKTexture(imageNamed: "monster_reflect")
+//            monster?.texture = SKTexture(imageNamed: "monster_reflect")
             
-            let characterAnimation = SKAction.repeatForever(SKAction.animate(with: monsterReflectRun, timePerFrame: 0.2))
+            let characterAnimation = SKAction.repeatForever(SKAction.animate(with: monsterPetrolReflectRun, timePerFrame: 0.2))
             monster?.run(characterAnimation)
             
             monster?.run(repeatAction)
@@ -203,7 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let repeatAction = SKAction.repeatForever(monsterMoveAction!)
             
-            let characterAnimation = SKAction.repeatForever(SKAction.animate(with: monsterRun, timePerFrame: 0.2))
+            let characterAnimation = SKAction.repeatForever(SKAction.animate(with: monsterPetrolRun, timePerFrame: 0.2))
             monster?.run(characterAnimation)
             
             monster?.run(repeatAction)
@@ -228,14 +236,121 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func monsterFire(is_left: Bool)
+    
+    
+    func spawnShitMonsters() {
+        
+        let random = GKRandomSource.sharedRandom().nextInt(upperBound: 7)
+
+        if(score > 20 && random == 3)
+        {
+            if(monster != nil)
+            {
+                monster1 = monster
+            }
+            // GKRandomSource.sharedRandom().nextInt(upperBound: 3)
+            
+            
+            monster = SKSpriteNode(imageNamed: "ShitmanEnemy")
+            monster?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40, height: 80))
+            monster?.physicsBody?.categoryBitMask = monsterCategory
+            monster?.physicsBody?.collisionBitMask = groundCategory
+            monster?.physicsBody?.linearDamping = 0
+            monster?.size = CGSize(width: 81, height: 106)
+            monster?.anchorPoint = CGPoint(x: 0, y: 0)
+            
+            
+            if GKRandomSource.sharedRandom().nextBool() == true {
+    //            monster?.position = CGPoint(x: size.width * 0.9, y: size.height * 0.1)
+    //            let monsterMoveAction = SKAction.moveBy(x: -2, y: 0, duration: 0.08)
+                
+                var monsterMoveAction:SKAction?
+                
+                monster?.position = CGPoint(x: size.width * 1.0, y: size.height * 0.2)
+                
+                
+                if(score > 20 && score <= 45)
+                {
+                    monsterMoveAction = SKAction.moveBy(x: -2, y: 0, duration: 0.01)
+                }
+                else
+                {
+                    monsterMoveAction = SKAction.moveBy(x: -3, y: 0, duration: 0.01)
+                }
+                
+                let repeatAction = SKAction.repeatForever(monsterMoveAction!)
+    //            monster?.texture = SKTexture(imageNamed: "monster_reflect")
+                
+                let characterAnimation = SKAction.repeatForever(SKAction.animate(with: monsterReflectRun, timePerFrame: 0.2))
+                monster?.run(characterAnimation)
+                
+                monster?.run(repeatAction)
+                let wait = SKAction.wait(forDuration: 0.3)
+                let run = SKAction.run {
+    
+                    self.monsterFire(is_left: true, monster_here: self.monster!)
+    
+    
+                }
+                self.run(SKAction.sequence([wait, run]))
+                
+
+            }
+            else {
+    //            monster?.position = CGPoint(x: size.width * 0.1, y: size.height * 0.2)
+    //            let monsterMoveAction = SKAction.moveBy(x: 2, y: 0, duration: 0.08)
+                
+                monster?.position = CGPoint(x: size.width * -0.2, y: size.height * 0.2)
+                 
+                var monsterMoveAction:SKAction?
+                if(score > 20 && score <= 45)
+                {
+                    monsterMoveAction = SKAction.moveBy(x: 2, y: 0, duration: 0.01)
+                }
+                else
+                {
+                    monsterMoveAction = SKAction.moveBy(x: 3, y: 0, duration: 0.01)
+                }
+                
+                
+                let repeatAction = SKAction.repeatForever(monsterMoveAction!)
+                
+                let characterAnimation = SKAction.repeatForever(SKAction.animate(with: monsterRun, timePerFrame: 0.2))
+                monster?.run(characterAnimation)
+                
+                monster?.run(repeatAction)
+                
+                let wait = SKAction.wait(forDuration: 0.3)
+                let run = SKAction.run {
+    
+                    self.monsterFire(is_left: false, monster_here: self.monster!)
+    
+    
+                }
+                self.run(SKAction.sequence([wait, run]))
+            }
+            addChild(monster!)
+            
+            
+    //        let actionMove = SKAction.move(to: CGPoint(x: -100, y: 0), duration: TimeInterval(2))
+    //        let actionMoveDone = SKAction.removeFromParent()
+    //
+    //        monster?.run(SKAction.sequence([actionMove, actionMoveDone]))
+            
+        }
+        }
+    
+    
+    
+    
+    func monsterFire(is_left: Bool, monster_here: SKSpriteNode)
     {
         
         
         
         m_projectile = SKSpriteNode(imageNamed: "ShitBullet")
         
-        m_projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 5, height: 50)) // temp for testing
+        m_projectile?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 5, height: 70)) // temp for testing
         m_projectile?.physicsBody?.categoryBitMask = m_projectileCategory
         m_projectile?.physicsBody?.collisionBitMask = 0
         m_projectile?.physicsBody?.contactTestBitMask = playerCategory
@@ -247,17 +362,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if(is_left == true)
         {
-            m_projectile?.position = CGPoint(x: (monster?.position.x)! - 80, y: (monster?.position.y)! + 60)
+            m_projectile?.position = CGPoint(x: (monster_here.position.x) - 80, y: (monster_here.position.y) + 60)
         }
         else
         {
-            m_projectile?.position = CGPoint(x: (monster?.position.x)! + 80, y: (monster?.position.y)! + 60)
+            m_projectile?.position = CGPoint(x: (monster_here.position.x) + 80, y: (monster_here.position.y) + 60)
         }
         
         
         let projectileSound = SKAction.playSoundFileNamed("shoot.m4a", waitForCompletion: false)
         run(projectileSound)
         addChild((m_projectile!))
+        
+//        let range = SKRange(lowerLimit: 0, upperLimit: 650)
+//        let lockToCenter = SKConstraint.positionX(range)
+//        m_projectile?.constraints = [lockToCenter]
         
         var projectileMoveAction2:SKAction?
             
@@ -294,6 +413,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(projectileSound)
         addChild(projectile!)
         
+//        let range = SKRange(lowerLimit: 0, upperLimit: 650)
+//        let lockToCenter = SKConstraint.positionX(range)
+//        projectile?.constraints = [lockToCenter]
+        
         var projectileMoveAction:SKAction?
             
         if(movementRight == true)
@@ -308,6 +431,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         let repeatAction = SKAction.repeatForever(projectileMoveAction!)
         projectile?.run(repeatAction)
+        
+        
+        
+        
+        
+ 
     }
     
     func spawnSmog() {
@@ -477,10 +606,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         run(SKAction.repeatForever(
             SKAction.sequence([
-                SKAction.run(spawnMonsters),
+                SKAction.run(spawnMonsters), SKAction.run(spawnShitMonsters),
                 SKAction.wait(forDuration: 2.5)
                 ])
         ), withKey: "repeater")
+        
+//
+//        run(SKAction.repeatForever(
+//            SKAction.sequence([
+//                SKAction.run(spawnShitMonsters),
+//                SKAction.wait(forDuration: 1.5)
+//                ])
+//        ), withKey: "repeater")
+        
         
         leftButton = self.childNode(withName: "left") as? SKSpriteNode
         rightButton = self.childNode(withName: "right") as? SKSpriteNode
@@ -634,11 +772,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 projectileDidCollideWithMonster(projectile: projectile!, monster: monster!)
             case playerCategory | monsterCategory:
                 print("monster hit player")
-                monster?.removeFromParent()
+                monster = contact.bodyB.node as? SKSpriteNode
+                monster!.removeFromParent()
                 loseLife()
-//            case m_projectileCategory | playerCategory:
-//                print("monster fire player")
-//                projectileDidCollideWithPlayer(m_projectile: m_projectile!, player: player!)
+            case m_projectileCategory | playerCategory:
+                print("monster fire player")
+                m_projectile = contact.bodyB.node as? SKSpriteNode
+                projectileDidCollideWithPlayer(m_projectile: m_projectile!, player: player!)
                 
                 
             default:
